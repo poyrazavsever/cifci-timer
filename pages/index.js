@@ -77,18 +77,24 @@ export default function Home() {
           damping: 20,
           delay: 0.3
         }}
-        className="mb-8"
+        className="mb-8 w-[120px] sm:w-[150px] md:w-[180px]"
       >
-        <Image src="/logo.png" alt="Logo" width={150} height={150} className="rounded-lg" />
+        <Image 
+          src="/logo.png" 
+          alt="Logo" 
+          width={180} 
+          height={180} 
+          className="rounded-lg w-full h-auto" 
+        />
       </motion.div>
 
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="text-center"
+        className="text-center w-full max-w-7xl px-4"
       >
-        <motion.div className="grid grid-cols-4 gap-4 text-center">
+        <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 text-center">
           {[
             { value: timeLeft.days, label: "Gün" },
             { value: timeLeft.hours, label: "Saat" },
@@ -100,18 +106,18 @@ export default function Home() {
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-green-50 p-16 rounded-lg shadow-md"
+              className="bg-green-50 p-4 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-md"
             >
               <motion.div
                 key={item.value}
                 variants={numberVariants}
                 initial="initial"
                 animate="animate"
-                className="text-6xl font-bold text-gray-700"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700"
               >
                 {item.value}
               </motion.div>
-              <motion.div className="text-gray-600">
+              <motion.div className="text-sm sm:text-base md:text-lg text-gray-600 mt-1">
                 {item.label}
               </motion.div>
             </motion.div>
