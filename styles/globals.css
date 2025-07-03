@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+/* Seçim stili */
+::selection {
+  background-color: #22c55e; /* green-500 */
+  color: white;
+}
+
+/* Firefox için seçim stili */
+::-moz-selection {
+  background-color: #22c55e; /* green-500 */
+  color: white;
+}
+
