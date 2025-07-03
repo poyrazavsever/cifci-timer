@@ -21,7 +21,7 @@ const About = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-white">
+    <div className="min-h-screen flex flex-col items-center justify-center sm:p-8 bg-white">
       <div className="container mx-auto max-w-4xl" ref={ref}>
         <motion.div 
           className="flex flex-col md:flex-row items-center gap-8 md:gap-16"
@@ -45,7 +45,7 @@ const About = () => {
 
           {/* İçerik Bölümü */}
           <motion.div 
-            className="flex-1 space-y-6 text-center md:text-left"
+            className="flex-1 space-y-2 sm:space-y-6 text-center md:text-left"
             variants={contentVariants}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
@@ -57,14 +57,14 @@ const About = () => {
               Hakkımızda
             </motion.h2>
             <motion.p 
-              className="text-sm sm:text-lg text-gray-700 leading-relaxed"
+              className="text-sm sm:text-lg text-gray-700 leading-relaxed px-4"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               20 yılı aşkın tecrübemizle tarım sektöründe çiftçilerimizin yanındayız. Modern tarım teknolojileri ve sürdürülebilir tarım uygulamaları konusunda öncü çözümler sunuyoruz.
             </motion.p>
             <motion.p 
-              className="text-sm sm:text-lg text-gray-700 leading-relaxed"
+              className="text-sm sm:text-lg text-gray-700 leading-relaxed px-4"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               transition={{ duration: 0.5, delay: 1 }}
             >
