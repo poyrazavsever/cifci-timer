@@ -1,12 +1,13 @@
 import About from '@/components/About';
 import Designs from '@/components/Designs';
 import HeroSection from '@/components/HeroSection';
+import CountdownTimer from '@/components/CountdownTimer';
 import { useEffect, useState, useCallback } from 'react';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
-  const sections = ['hero', 'second', 'third'];
+  const sections = ['hero', 'second', 'third', 'countdown'];
 
   const scrollToSection = useCallback((index) => {
     if (isScrolling) return;
@@ -20,10 +21,9 @@ export default function Home() {
     
     setActiveSection(index);
     
-    // Scroll işlemi bitene kadar yeni scroll'u engelle
     setTimeout(() => {
       setIsScrolling(false);
-    }, 1000); // 1 saniye bekle
+    }, 1000);
   }, [isScrolling]);
 
   useEffect(() => {
@@ -45,15 +45,13 @@ export default function Home() {
       
       if (isScrolling) return;
       
-      // Mevcut timeout'u temizle
       clearTimeout(wheelTimeout);
       
-      // Yeni bir timeout başlat
       wheelTimeout = setTimeout(() => {
         const direction = e.deltaY > 0 ? 1 : -1;
         const nextSection = Math.max(0, Math.min(sections.length - 1, activeSection + direction));
         scrollToSection(nextSection);
-      }, 20); // 50ms debounce
+      }, 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -92,6 +90,12 @@ export default function Home() {
 
         <div id="third" className="h-screen w-full">
           <Designs />
+        </div>
+
+        <div id="countdown" className="h-screen w-full bg-green-900 flex items-center justify-center">
+          <div className="w-full max-w-xl">
+            <CountdownTimer />
+          </div>
         </div>
       </div>
     </div>
