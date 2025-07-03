@@ -1,129 +1,108 @@
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import About from '@/components/About';
+import Designs from '@/components/Designs';
+import HeroSection from '@/components/HeroSection';
+import CountdownTimer from '@/components/CountdownTimer';
+import FAQ from '@/components/FAQ';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
+  const [activeSection, setActiveSection] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const sections = ['hero', 'second', 'third', 'faq', 'countdown'];
+
+  const scrollToSection = useCallback((index) => {
+    if (isScrolling) return;
+    setIsScrolling(true);
+    
+    const targetPosition = index * window.innerHeight;
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    });
+    
+    setActiveSection(index);
+    
+    setTimeout(() => {
+      setIsScrolling(false);
+    }, 1000);
+  }, [isScrolling]);
 
   useEffect(() => {
-    const targetDate = new Date('2025-09-01T00:00:00');
-
-    const timer = setInterval(() => {
-      const now = new Date();
-      const difference = targetDate - now;
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((difference / 1000 / 60) % 60);
-      const seconds = Math.floor((difference / 1000) % 60);
-
-      setTimeLeft({ days, hours, minutes, seconds });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.2
+    const handleScroll = () => {
+      if (isScrolling) return;
+      
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const currentSection = Math.floor(scrollPosition / windowHeight);
+      
+      if (currentSection !== activeSection) {
+        setActiveSection(currentSection);
       }
-    }
-  };
+    };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100
-      }
-    }
-  };
+    let wheelTimeout;
+    const handleWheel = (e) => {
+      e.preventDefault();
+      
+      if (isScrolling) return;
+      
+      clearTimeout(wheelTimeout);
+      
+      wheelTimeout = setTimeout(() => {
+        const direction = e.deltaY > 0 ? 1 : -1;
+        const nextSection = Math.max(0, Math.min(sections.length - 1, activeSection + direction));
+        scrollToSection(nextSection);
+      }, 20);
+    };
 
-  const numberVariants = {
-    initial: { scale: 1 },
-    animate: { 
-      scale: [1, 1.1, 1],
-      transition: { duration: 0.3 }
-    }
-  };
+    window.addEventListener('scroll', handleScroll);
+    document.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('wheel', handleWheel);
+      clearTimeout(wheelTimeout);
+    };
+  }, [activeSection, isScrolling, scrollToSection, sections.length]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="min-h-screen bg-gradient-to-b from-white to-gray-300 flex flex-col items-center justify-center p-4"
-    >
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ 
-          type: "spring",
-          stiffness: 260,
-          damping: 20,
-          delay: 0.3
-        }}
-        className="mb-8 w-[120px] sm:w-[150px] md:w-[180px]"
-      >
-        <Image 
-          src="/logo.png" 
-          alt="Logo" 
-          width={180} 
-          height={180} 
-          className="rounded-lg w-full h-auto" 
-        />
-      </motion.div>
+    <div className="relative">
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3">
+        {sections.map((section, index) => (
+          <button
+            key={section}
+            onClick={() => scrollToSection(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              activeSection === index ? 'bg-green-950 w-4 h-4' : 'bg-gray-300'
+            } hover:bg-gray-400`}
+            aria-label={`Scroll to ${section} section`}
+          />
+        ))}
+      </div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="text-center w-full max-w-7xl px-4"
-      >
-        <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 text-center">
-          {[
-            { value: timeLeft.days, label: "Gün" },
-            { value: timeLeft.hours, label: "Saat" },
-            { value: timeLeft.minutes, label: "Dakika" },
-            { value: timeLeft.seconds, label: "Saniye" }
-          ].map((item, index) => (
-            <motion.div
-              key={item.label}
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-green-50 p-4 sm:p-8 md:p-12 lg:p-16 rounded-lg shadow-md"
-            >
-              <motion.div
-                key={item.value}
-                variants={numberVariants}
-                initial="initial"
-                animate="animate"
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700"
-              >
-                {item.value}
-              </motion.div>
-              <motion.div className="text-sm sm:text-base md:text-lg text-gray-600 mt-1">
-                {item.label}
-              </motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
-    </motion.div>
+      <div className="overflow-hidden">
+        <div id="hero" className="h-screen w-full">
+          <HeroSection />
+        </div>
+        
+        <div id="second" className="h-screen w-full">
+          <About />
+        </div>
+
+        <div id="third" className="h-screen w-full">
+          <Designs />
+        </div>
+
+        <div id="faq" className="h-screen w-full bg-white">
+          <FAQ />
+        </div>
+
+        <div id="countdown" className="h-screen w-full bg-green-900 flex items-center justify-center">
+          <div className="w-full max-w-xl">
+            <CountdownTimer />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
