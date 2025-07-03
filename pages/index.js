@@ -1,3 +1,4 @@
+import About from '@/components/About';
 import HeroSection from '@/components/HeroSection';
 import { useEffect, useState, useCallback } from 'react';
 
@@ -84,10 +85,8 @@ export default function Home() {
           <HeroSection />
         </div>
         
-        <div id="second" className="h-screen w-full bg-gray-100">
-          <div className="container mx-auto px-4 py-16">
-            <h2 className="text-4xl font-bold">İkinci Bölüm</h2>
-          </div>
+        <div id="second" className="h-screen w-full">
+          <About />
         </div>
 
         <div id="third" className="h-screen w-full bg-gray-200">
