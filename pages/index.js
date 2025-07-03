@@ -1,23 +1,57 @@
 import HeroSection from '@/components/HeroSection';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
   const sections = ['hero', 'second', 'third'];
+
+  const scrollToSection = useCallback((index) => {
+    if (isScrolling) return;
+    setIsScrolling(true);
+    
+    const targetPosition = index * window.innerHeight;
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    });
+    
+    setActiveSection(index);
+    
+    // Scroll işlemi bitene kadar yeni scroll'u engelle
+    setTimeout(() => {
+      setIsScrolling(false);
+    }, 1000); // 1 saniye bekle
+  }, [isScrolling]);
 
   useEffect(() => {
     const handleScroll = () => {
+      if (isScrolling) return;
+      
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
       const currentSection = Math.floor(scrollPosition / windowHeight);
-      setActiveSection(currentSection);
+      
+      if (currentSection !== activeSection) {
+        setActiveSection(currentSection);
+      }
     };
 
+    let wheelTimeout;
     const handleWheel = (e) => {
       e.preventDefault();
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const nextSection = Math.max(0, Math.min(sections.length - 1, activeSection + direction));
-      scrollToSection(nextSection);
+      
+      if (isScrolling) return;
+      
+      // Mevcut timeout'u temizle
+      clearTimeout(wheelTimeout);
+      
+      // Yeni bir timeout başlat
+      wheelTimeout = setTimeout(() => {
+        const direction = e.deltaY > 0 ? 1 : -1;
+        const nextSection = Math.max(0, Math.min(sections.length - 1, activeSection + direction));
+        scrollToSection(nextSection);
+      }, 20); // 50ms debounce
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -26,17 +60,9 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('wheel', handleWheel);
+      clearTimeout(wheelTimeout);
     };
-  }, [activeSection, sections.length]);
-
-  const scrollToSection = (index) => {
-    const targetPosition = index * window.innerHeight;
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    });
-    setActiveSection(index);
-  };
+  }, [activeSection, isScrolling, scrollToSection, sections.length]);
 
   return (
     <div className="relative">
