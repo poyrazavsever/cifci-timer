@@ -57,18 +57,18 @@ const About = () => {
               Hakkımızda
             </motion.h2>
             <motion.p 
-              className="text-sm sm:text-lg text-gray-700 leading-relaxed px-4"
+              className="text-sm sm:text-lg text-gray-700 leading-relaxed px-4 sm:px-0"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              20 yılı aşkın tecrübemizle tarım sektöründe çiftçilerimizin yanındayız. Modern tarım teknolojileri ve sürdürülebilir tarım uygulamaları konusunda öncü çözümler sunuyoruz.
+              OTTOQUA Teknoloji Takımının ürünü olan Çifçi, Türkiye'de çiftçilerin günlük hayatlarını kolaylaştıracak bir mobil uygulamadır. 
             </motion.p>
             <motion.p 
-              className="text-sm sm:text-lg text-gray-700 leading-relaxed px-4"
+              className="text-sm sm:text-lg text-gray-700 leading-relaxed px-4 sm:px-0"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               transition={{ duration: 0.5, delay: 1 }}
             >
-              Amacımız, çiftçilerimizin verimliliğini artırırken doğal kaynakları korumak ve gelecek nesillere daha iyi bir tarım mirası bırakmaktır.
+              Amacımız, çiftçilerimizin verimliliğini artırırken doğal kaynakları korumak ve gelecek nesillere daha iyi bir tarım mirası bırakmaktır. 
             </motion.p>
           </motion.div>
         </motion.div>
