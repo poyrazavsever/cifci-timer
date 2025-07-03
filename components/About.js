@@ -32,7 +32,7 @@ const About = () => {
         >
           {/* Logo Bölümü */}
           <motion.div 
-            className="w-48 md:w-64 flex-shrink-0"
+            className="w-24 md:w-64 flex-shrink-0"
             variants={logoVariants}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
@@ -50,21 +50,21 @@ const About = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <motion.h2 
-              className="text-3xl md:text-4xl font-bold text-green-950"
+              className="text-xl sm:text-3xl md:text-4xl font-bold text-green-950"
               variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
               Hakkımızda
             </motion.h2>
             <motion.p 
-              className="text-lg text-gray-700 leading-relaxed"
+              className="text-sm sm:text-lg text-gray-700 leading-relaxed"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               20 yılı aşkın tecrübemizle tarım sektöründe çiftçilerimizin yanındayız. Modern tarım teknolojileri ve sürdürülebilir tarım uygulamaları konusunda öncü çözümler sunuyoruz.
             </motion.p>
             <motion.p 
-              className="text-lg text-gray-700 leading-relaxed"
+              className="text-sm sm:text-lg text-gray-700 leading-relaxed"
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               transition={{ duration: 0.5, delay: 1 }}
             >
