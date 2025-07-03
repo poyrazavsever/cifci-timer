@@ -46,7 +46,7 @@ export default function Home() {
             key={section}
             onClick={() => scrollToSection(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              activeSection === index ? 'bg-green-700 w-4 h-4' : 'bg-gray-300'
+              activeSection === index ? 'bg-green-950 w-4 h-4' : 'bg-gray-300'
             } hover:bg-gray-400`}
             aria-label={`Scroll to ${section} section`}
           />
