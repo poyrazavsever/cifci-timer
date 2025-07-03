@@ -2,12 +2,13 @@ import About from '@/components/About';
 import Designs from '@/components/Designs';
 import HeroSection from '@/components/HeroSection';
 import CountdownTimer from '@/components/CountdownTimer';
+import FAQ from '@/components/FAQ';
 import { useEffect, useState, useCallback } from 'react';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
-  const sections = ['hero', 'second', 'third', 'countdown'];
+  const sections = ['hero', 'second', 'third', 'faq', 'countdown'];
 
   const scrollToSection = useCallback((index) => {
     if (isScrolling) return;
@@ -90,6 +91,10 @@ export default function Home() {
 
         <div id="third" className="h-screen w-full">
           <Designs />
+        </div>
+
+        <div id="faq" className="h-screen w-full bg-white">
+          <FAQ />
         </div>
 
         <div id="countdown" className="h-screen w-full bg-green-900 flex items-center justify-center">
